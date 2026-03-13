@@ -1,24 +1,27 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch } from "vue";
 
 const props = defineProps<{
   modelValue: boolean;
 }>();
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: boolean): void;
+  (e: "update:modelValue", value: boolean): void;
 }>();
 
 const isMuted = ref(props.modelValue);
 
 const handleToggle = () => {
   isMuted.value = !isMuted.value;
-  emit('update:modelValue', isMuted.value);
+  emit("update:modelValue", isMuted.value);
 };
 
-watch(() => props.modelValue, (newVal) => {
-  isMuted.value = newVal;
-});
+watch(
+  () => props.modelValue,
+  (newVal) => {
+    isMuted.value = newVal;
+  },
+);
 </script>
 
 <template>

@@ -34,8 +34,8 @@ pnpm add giovan-live-photo
 </template>
 
 <script setup>
-import { LivePhoto } from 'giovan-live-photo';
-import 'giovan-live-photo/style.css';
+import { LivePhoto } from "giovan-live-photo";
+import "giovan-live-photo/style.css";
 </script>
 ```
 
@@ -47,41 +47,42 @@ import 'giovan-live-photo/style.css';
 
 #### Props
 
-| 属性 | 类型 | 默认值 | 说明 |
-|------|------|--------|------|
-| `imageUrl` | `string` | - | 图片 URL（必填） |
-| `videoUrl` | `string` | - | 视频 URL（必填） |
-| `posterUrl` | `string` | - | 封面图 URL |
-| `thumbHash` | `string` | - | ThumbHash base64 字符串，用于生成占位图 |
-| `thumbHashUrl` | `string` | - | 占位图 URL（直接使用） |
-| `autoPlay` | `boolean` | `false` | 自动播放 |
-| `loop` | `boolean` | `false` | 循环播放 |
-| `muted` | `boolean` | `true` | 静音状态 |
-| `volume` | `number` | `1` | 音量 (0-1) |
-| `playbackRate` | `number` | `1` | 播放速度 |
-| `triggerMode` | `'longpress' \| 'click' \| 'hover'` | `'longpress'` | 触发模式 |
-| `longPressDelay` | `number` | `200` | 长按延迟 (ms) |
-| `aspectRatio` | `number` | `1` | 宽高比 |
-| `showIndicator` | `boolean` | `true` | 显示 LIVE 指示器 |
-| `showMuteButton` | `boolean` | `true` | 显示静音按钮 |
+| 属性             | 类型                                | 默认值        | 说明                                    |
+| ---------------- | ----------------------------------- | ------------- | --------------------------------------- |
+| `imageUrl`       | `string`                            | -             | 图片 URL（必填）                        |
+| `videoUrl`       | `string`                            | -             | 视频 URL（必填）                        |
+| `posterUrl`      | `string`                            | -             | 封面图 URL                              |
+| `thumbHash`      | `string`                            | -             | ThumbHash base64 字符串，用于生成占位图 |
+| `thumbHashUrl`   | `string`                            | -             | 占位图 URL（直接使用）                  |
+| `autoPlay`       | `boolean`                           | `false`       | 自动播放                                |
+| `loop`           | `boolean`                           | `false`       | 循环播放                                |
+| `muted`          | `boolean`                           | `true`        | 静音状态                                |
+| `volume`         | `number`                            | `1`           | 音量 (0-1)                              |
+| `playbackRate`   | `number`                            | `1`           | 播放速度                                |
+| `triggerMode`    | `'longpress' \| 'click' \| 'hover'` | `'longpress'` | 触发模式                                |
+| `longPressDelay` | `number`                            | `200`         | 长按延迟 (ms)                           |
+| `aspectRatio`    | `number`                            | `1`           | 宽高比                                  |
+| `showIndicator`  | `boolean`                           | `true`        | 显示 LIVE 指示器                        |
+| `showMuteButton` | `boolean`                           | `true`        | 显示静音按钮                            |
+| `preloadVideo`   | `boolean`                           | `true`        | 预加载视频（加载时 LIVE 标志旋转）      |
 
 #### Events
 
-| 事件 | 参数 | 说明 |
-|------|------|------|
-| `play` | - | 开始播放 |
-| `pause` | - | 暂停播放 |
-| `ended` | - | 播放结束 |
-| `loaded` | - | 资源加载完成 |
-| `error` | `Error` | 发生错误 |
-| `progress` | `number` | 播放进度 (0-1) |
-| `update:muted` | `boolean` | 静音状态变化 |
-| `click` | `MouseEvent` | 点击事件 |
+| 事件           | 参数         | 说明           |
+| -------------- | ------------ | -------------- |
+| `play`         | -            | 开始播放       |
+| `pause`        | -            | 暂停播放       |
+| `ended`        | -            | 播放结束       |
+| `loaded`       | -            | 资源加载完成   |
+| `error`        | `Error`      | 发生错误       |
+| `progress`     | `number`     | 播放进度 (0-1) |
+| `update:muted` | `boolean`    | 静音状态变化   |
+| `click`        | `MouseEvent` | 点击事件       |
 
 #### Slots
 
-| 插槽 | 参数 | 说明 |
-|------|------|------|
+| 插槽       | 参数                     | 说明           |
+| ---------- | ------------------------ | -------------- |
 | `controls` | `{ isPlaying, isMuted }` | 自定义控制按钮 |
 
 #### Methods
@@ -94,7 +95,7 @@ import 'giovan-live-photo/style.css';
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 
 const livePhotoRef = ref();
 
@@ -113,11 +114,11 @@ const getState = () => {
 </script>
 ```
 
-| 方法 | 说明 |
-|------|------|
-| `play()` | 播放视频 |
-| `pause()` | 暂停视频 |
-| `stop()` | 停止视频 |
+| 方法         | 说明         |
+| ------------ | ------------ |
+| `play()`     | 播放视频     |
+| `pause()`    | 暂停视频     |
+| `stop()`     | 停止视频     |
 | `getState()` | 获取播放状态 |
 
 ---
@@ -132,8 +133,8 @@ const getState = () => {
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { LivePhotoMute } from 'giovan-live-photo';
+import { ref } from "vue";
+import { LivePhotoMute } from "giovan-live-photo";
 
 const isMuted = ref(true);
 </script>
@@ -141,14 +142,14 @@ const isMuted = ref(true);
 
 #### Props
 
-| 属性 | 类型 | 默认值 | 说明 |
-|------|------|--------|------|
-| `modelValue` | `boolean` | - | 静音状态 |
+| 属性         | 类型      | 默认值 | 说明     |
+| ------------ | --------- | ------ | -------- |
+| `modelValue` | `boolean` | -      | 静音状态 |
 
 #### Events
 
-| 事件 | 参数 | 说明 |
-|------|------|------|
+| 事件                | 参数      | 说明         |
+| ------------------- | --------- | ------------ |
 | `update:modelValue` | `boolean` | 静音状态变化 |
 
 ---
@@ -159,16 +160,16 @@ LIVE 指示器组件。
 
 ```vue
 <template>
-  <LivePhotoIndicator 
-    :is-playing="isPlaying" 
-    :can-play="canPlay" 
+  <LivePhotoIndicator
+    :is-playing="isPlaying"
+    :can-play="canPlay"
     :is-loading="isLoading"
   />
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { LivePhotoIndicator } from 'giovan-live-photo';
+import { ref } from "vue";
+import { LivePhotoIndicator } from "giovan-live-photo";
 
 const isPlaying = ref(false);
 const canPlay = ref(true);
@@ -178,11 +179,11 @@ const isLoading = ref(false);
 
 #### Props
 
-| 属性 | 类型 | 默认值 | 说明 |
-|------|------|--------|------|
-| `isPlaying` | `boolean` | - | 是否正在播放 |
-| `canPlay` | `boolean` | - | 视频是否可播放 |
-| `isLoading` | `boolean` | `false` | 是否正在加载 |
+| 属性        | 类型      | 默认值  | 说明           |
+| ----------- | --------- | ------- | -------------- |
+| `isPlaying` | `boolean` | -       | 是否正在播放   |
+| `canPlay`   | `boolean` | -       | 视频是否可播放 |
+| `isLoading` | `boolean` | `false` | 是否正在加载   |
 
 ---
 
@@ -206,11 +207,7 @@ const isLoading = ref(false);
 桌面端推荐模式，鼠标悬停时自动播放。
 
 ```vue
-<LivePhoto
-  image-url="..."
-  video-url="..."
-  trigger-mode="hover"
-/>
+<LivePhoto image-url="..." video-url="..." trigger-mode="hover" />
 ```
 
 ### click（点击）
@@ -218,11 +215,7 @@ const isLoading = ref(false);
 点击切换播放/暂停状态。
 
 ```vue
-<LivePhoto
-  image-url="..."
-  video-url="..."
-  trigger-mode="click"
-/>
+<LivePhoto image-url="..." video-url="..." trigger-mode="click" />
 ```
 
 ---
@@ -269,8 +262,14 @@ const isLoading = ref(false);
 组件内置加载状态保护机制：
 
 - **图片未加载完成**：禁止触发视频播放，显示占位图
-- **视频加载中**：显示旋转加载动画，禁止重复播放
+- **视频加载中**：LIVE 标志旋转动画，表示正在加载
 - **加载中光标**：自动显示 `cursor: wait`
+
+### 加载状态流程
+
+1. **组件挂载** → 开始预加载视频 → LIVE 标志旋转
+2. **视频加载完成** → `canplay` 事件触发 → 停止旋转
+3. **用户悬停/点击** → 立即播放（无需等待）
 
 ---
 
@@ -280,7 +279,7 @@ const isLoading = ref(false);
 
 ```css
 :root {
-  --live-photo-radius: 12px;
+  --live-photo-radius: 0px;
   --live-photo-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   --live-photo-controls-bg: rgba(0, 0, 0, 0.4);
   --live-photo-controls-color: white;
@@ -325,11 +324,11 @@ const isLoading = ref(false);
 </template>
 
 <script setup>
-import { LivePhoto } from 'giovan-live-photo';
-import 'giovan-live-photo/style.css';
+import { LivePhoto } from "giovan-live-photo";
+import "giovan-live-photo/style.css";
 
-const onPlay = () => console.log('开始播放');
-const onPause = () => console.log('暂停播放');
+const onPlay = () => console.log("开始播放");
+const onPause = () => console.log("暂停播放");
 </script>
 ```
 
@@ -347,8 +346,8 @@ const onPause = () => console.log('暂停播放');
 </template>
 
 <script setup>
-import { LivePhoto } from 'giovan-live-photo';
-import 'giovan-live-photo/style.css';
+import { LivePhoto } from "giovan-live-photo";
+import "giovan-live-photo/style.css";
 </script>
 ```
 
@@ -366,7 +365,7 @@ import 'giovan-live-photo/style.css';
     <template #controls="{ isPlaying }">
       <div class="custom-controls">
         <button @click="togglePlay">
-          {{ isPlaying ? '暂停' : '播放' }}
+          {{ isPlaying ? "暂停" : "播放" }}
         </button>
       </div>
     </template>
@@ -374,9 +373,9 @@ import 'giovan-live-photo/style.css';
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { LivePhoto } from 'giovan-live-photo';
-import 'giovan-live-photo/style.css';
+import { ref } from "vue";
+import { LivePhoto } from "giovan-live-photo";
+import "giovan-live-photo/style.css";
 
 const livePhotoRef = ref();
 const isMuted = ref(true);
@@ -407,12 +406,12 @@ const togglePlay = () => {
 </template>
 
 <script setup>
-import { LivePhoto } from 'giovan-live-photo';
-import 'giovan-live-photo/style.css';
+import { LivePhoto } from "giovan-live-photo";
+import "giovan-live-photo/style.css";
 
 const photos = [
-  { id: 1, imageUrl: '...', videoUrl: '...', thumbHash: '...' },
-  { id: 2, imageUrl: '...', videoUrl: '...', thumbHash: '...' },
+  { id: 1, imageUrl: "...", videoUrl: "...", thumbHash: "..." },
+  { id: 2, imageUrl: "...", videoUrl: "...", thumbHash: "..." },
 ];
 </script>
 
@@ -436,7 +435,7 @@ import type {
   TriggerMode,
   LivePhotoErrorCode,
   LivePhotoError,
-} from 'giovan-live-photo';
+} from "giovan-live-photo";
 ```
 
 ---

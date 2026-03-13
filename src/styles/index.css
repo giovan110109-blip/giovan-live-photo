@@ -1,5 +1,5 @@
 :root {
-  --live-photo-radius: 12px;
+  --live-photo-radius: 0px;
   --live-photo-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   --live-photo-controls-bg: rgba(0, 0, 0, 0.4);
   --live-photo-controls-color: white;

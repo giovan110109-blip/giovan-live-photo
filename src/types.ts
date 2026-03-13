@@ -42,6 +42,7 @@ export interface LivePhotoProps {
   aspectRatio?: number;
   showIndicator?: boolean;
   showMuteButton?: boolean;
+  preloadVideo?: boolean;
 }
 
 export interface LivePhotoEmits {

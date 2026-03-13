@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref, watch, nextTick } from 'vue';
-import type { LivePhotoProps, LivePhotoEmits } from '../types';
-import { isMobileDevice, vibrate } from '../core/player';
-import { decodeThumbHash } from '../core/thumbhash';
-import LivePhotoMute from './LivePhotoMute.vue';
-import LivePhotoIndicator from './LivePhotoIndicator.vue';
+import { computed, onMounted, onUnmounted, ref, watch, nextTick } from "vue";
+import type { LivePhotoProps, LivePhotoEmits } from "../types";
+import { isMobileDevice, vibrate } from "../core/player";
+import { decodeThumbHash } from "../core/thumbhash";
+import LivePhotoMute from "./LivePhotoMute.vue";
+import LivePhotoIndicator from "./LivePhotoIndicator.vue";
 
 const props = withDefaults(defineProps<LivePhotoProps>(), {
   autoPlay: false,
@@ -12,11 +12,12 @@ const props = withDefaults(defineProps<LivePhotoProps>(), {
   muted: true,
   volume: 1,
   playbackRate: 1,
-  triggerMode: 'longpress',
+  triggerMode: "longpress",
   longPressDelay: 200,
   aspectRatio: 1,
   showIndicator: true,
   showMuteButton: true,
+  preloadVideo: true,
 });
 
 const emit = defineEmits<LivePhotoEmits>();
@@ -54,22 +55,24 @@ const placeholderUrl = computed(() => {
   return null;
 });
 
-const showPlaceholder = computed(() => !imageLoaded.value && placeholderUrl.value);
+const showPlaceholder = computed(
+  () => !imageLoaded.value && placeholderUrl.value,
+);
 
 const onImageLoad = () => {
   imageLoaded.value = true;
 };
 
 const onImageError = (e: Event) => {
-  console.error('Image load error:', e);
-  emit('error', new Error('Failed to load image'));
+  console.error("Image load error:", e);
+  emit("error", new Error("Failed to load image"));
 };
 
 const onVideoCanPlay = () => {
   videoLoaded.value = true;
   videoLoading.value = false;
   if (imageLoaded.value) {
-    emit('loaded');
+    emit("loaded");
   }
 };
 
@@ -94,10 +97,10 @@ const onVideoTimeUpdate = () => {
 
   currentTime.value = videoRef.value.currentTime;
   duration.value = videoRef.value.duration;
-  
+
   if (duration.value > 0) {
     progress.value = currentTime.value / duration.value;
-    emit('progress', progress.value);
+    emit("progress", progress.value);
   }
 
   const remaining = duration.value - currentTime.value;
@@ -107,12 +110,12 @@ const onVideoTimeUpdate = () => {
 };
 
 const onVideoError = (e: Event) => {
-  console.error('Video load error:', e);
+  console.error("Video load error:", e);
   videoLoaded.value = false;
   videoLoading.value = false;
   isPlaying.value = false;
   isPlayingNow = false;
-  emit('error', new Error('Failed to load video'));
+  emit("error", new Error("Failed to load video"));
 };
 
 const playVideo = async () => {
@@ -131,20 +134,20 @@ const playVideo = async () => {
 
     return new Promise<void>((resolve) => {
       const handler = () => {
-        videoRef.value?.removeEventListener('loadedmetadata', handler);
+        videoRef.value?.removeEventListener("canplay", handler);
         videoLoaded.value = true;
         videoLoading.value = false;
         playVideo().then(resolve);
       };
 
       const timeout = setTimeout(() => {
-        videoRef.value?.removeEventListener('loadedmetadata', handler);
+        videoRef.value?.removeEventListener("canplay", handler);
         videoLoading.value = false;
         isPlayingNow = false;
         resolve();
-      }, 5000);
+      }, 10000);
 
-      videoRef.value?.addEventListener('loadedmetadata', () => {
+      videoRef.value?.addEventListener("canplay", () => {
         clearTimeout(timeout);
         handler();
       });
@@ -163,15 +166,15 @@ const playVideo = async () => {
     if (playPromise !== undefined) {
       await playPromise;
     }
-    emit('play');
+    emit("play");
   } catch (error: any) {
-    if (error.name === 'AbortError') {
+    if (error.name === "AbortError") {
       return;
     }
-    console.error('Play failed:', error);
+    console.error("Play failed:", error);
     isPlaying.value = false;
     isPlayingNow = false;
-    emit('error', error);
+    emit("error", error);
   }
 };
 
@@ -188,12 +191,12 @@ const stopVideo = () => {
       }
     }, 300);
   } catch (error) {
-    console.error('Stop video error:', error);
+    console.error("Stop video error:", error);
   }
 
   isPlaying.value = false;
   isPlayingNow = false;
-  emit('pause');
+  emit("pause");
 };
 
 const handleVideoEnded = () => {
@@ -207,7 +210,7 @@ const handleVideoEnded = () => {
 
   isPlaying.value = false;
   isPlayingNow = false;
-  emit('ended');
+  emit("ended");
 
   if (props.loop) {
     nextTick(() => {
@@ -217,7 +220,7 @@ const handleVideoEnded = () => {
 };
 
 const handleMouseEnter = async () => {
-  if (isMobile.value || props.triggerMode !== 'hover') return;
+  if (isMobile.value || props.triggerMode !== "hover") return;
   if (isHovering.value) return;
   if (!imageLoaded.value) return;
 
@@ -245,7 +248,7 @@ const handleMouseLeave = () => {
 };
 
 const handleTouchStart = (event: TouchEvent) => {
-  if (!isMobile.value || props.triggerMode !== 'longpress') return;
+  if (!isMobile.value || props.triggerMode !== "longpress") return;
   if (isPlayingNow) return;
   if (!imageLoaded.value) return;
 
@@ -294,9 +297,9 @@ const handleClick = (event: MouseEvent) => {
     return;
   }
 
-  if (!isMobile.value && props.triggerMode === 'click') {
+  if (!isMobile.value && props.triggerMode === "click") {
     if (!imageLoaded.value) return;
-    
+
     if (isPlaying.value) {
       stopVideo();
     } else if (videoLoaded.value) {
@@ -309,7 +312,7 @@ const handleClick = (event: MouseEvent) => {
     return;
   }
 
-  emit('click', event);
+  emit("click", event);
 };
 
 const handleMutedChange = (muted: boolean) => {
@@ -317,25 +320,41 @@ const handleMutedChange = (muted: boolean) => {
   if (videoRef.value) {
     videoRef.value.muted = muted;
   }
-  emit('update:muted', muted);
+  emit("update:muted", muted);
 };
 
-watch(() => props.muted, (newVal) => {
-  isMuted.value = newVal;
-  if (videoRef.value) {
-    videoRef.value.muted = newVal;
-  }
-});
+watch(
+  () => props.muted,
+  (newVal) => {
+    isMuted.value = newVal;
+    if (videoRef.value) {
+      videoRef.value.muted = newVal;
+    }
+  },
+);
 
-watch(() => props.volume, (newVal) => {
-  if (videoRef.value) {
-    videoRef.value.volume = newVal;
-  }
-});
+watch(
+  () => props.volume,
+  (newVal) => {
+    if (videoRef.value) {
+      videoRef.value.volume = newVal;
+    }
+  },
+);
 
-watch(() => props.playbackRate, (newVal) => {
-  if (videoRef.value) {
-    videoRef.value.playbackRate = newVal;
+watch(
+  () => props.playbackRate,
+  (newVal) => {
+    if (videoRef.value) {
+      videoRef.value.playbackRate = newVal;
+    }
+  },
+);
+
+onMounted(() => {
+  if (props.preloadVideo && props.videoUrl) {
+    videoLoading.value = true;
+    videoRef.value?.load();
   }
 });
 
@@ -390,11 +409,16 @@ defineExpose({
         :src="imageUrl"
         :alt="posterUrl || 'Live Photo'"
         class="live-photo__image"
-        :class="{ 'live-photo__image--hidden': showPlaceholder && !imageLoaded }"
+        :class="{
+          'live-photo__image--hidden': showPlaceholder && !imageLoaded,
+        }"
         @load="onImageLoad"
         @error="onImageError"
       />
-      <div v-if="!imageLoaded && !placeholderUrl" class="live-photo__image-placeholder" />
+      <div
+        v-if="!imageLoaded && !placeholderUrl"
+        class="live-photo__image-placeholder"
+      />
     </div>
 
     <video
@@ -406,7 +430,7 @@ defineExpose({
       :loop="loop"
       playsinline
       webkit-playsinline
-      preload="metadata"
+      :preload="preloadVideo ? 'auto' : 'metadata'"
       @canplay="onVideoCanPlay"
       @loadedmetadata="onVideoLoadedMetadata"
       @waiting="onVideoWaiting"
@@ -440,7 +464,7 @@ defineExpose({
   position: relative;
   width: 100%;
   overflow: hidden;
-  border-radius: var(--live-photo-radius, 12px);
+  border-radius: var(--live-photo-radius, 0px);
   user-select: none;
   cursor: pointer;
   background: #f0f0f0;

@@ -1,6 +1,6 @@
 {
   "name": "giovan-live-photo",
-  "version": "1.0.0",
+  "version": "1.0.6",
   "description": "A Vue 3 component library for playing Live Photos",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
